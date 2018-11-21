@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Iframe from 'react-iframe';
 
+import './airlyStyles.css';
+
 class Airly extends Component {
   render() {
     return (
