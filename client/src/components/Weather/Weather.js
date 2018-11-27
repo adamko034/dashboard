@@ -1,17 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
+import React from "react";
+import PropTypes from "prop-types";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { connect } from "react-redux";
 
-import Airly from './Airly/Airly';
+import { getWeather } from "../../actions/weatherActions";
+import Airly from "./Airly/Airly";
 
-import styles from './weatherStyles.js';
+import styles from "./weatherStyles.js";
 
 class Weather extends React.Component {
+  componentDidMount() {
+    this.props.getWeather("Katowice");
+  }
   render() {
-    const { classes } = this.props;
+    const { classes, weather } = this.props;
 
     return (
       <div className={classes.airlyContainer}>
+        <div>{weather}</div>
         <Airly />
       </div>
     );
@@ -22,4 +28,11 @@ Weather.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Weather);
+function mapStateToProps({ weather }) {
+  return { weather };
+}
+
+export default connect(
+  mapStateToProps,
+  { getWeather }
+)(withStyles(styles)(Weather));
