@@ -1,7 +1,3 @@
-const styles = {
-  airlyContainer: {
-    width: '50%'
-  }
-};
+const styles = {};
 
 export default styles;
