@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import withStyles from '@material-ui/core/styles/withStyles';
-import styles from './dashboardStyles.js';
+import withStyles from "@material-ui/core/styles/withStyles";
+import styles from "./dashboardStyles.js";
 
-import Sidebar from '../../components/Sidebar/Sidebar.js';
-import Weather from '../../components/Weather/Weather.js';
-import Social from '../../components/Social/Social.js';
+import Sidebar from "../../components/Sidebar/Sidebar.js";
+import Weather from "../../components/Weather/Weather.js";
+import Social from "../../components/Social/Social.js";
 
-import sideBarImage from '../../assets/images/sidebar-2.jpg';
+import sideBarImage from "../../assets/images/arjen.jpg";
 
 class Dashboard extends React.Component {
   render() {
