@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid';
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid";
 
-import Airly from './Airly/Airly';
-import CurrentWeather from './CurrentWeather/CurrentWeather';
+import Airly from "./Airly/Airly";
+import CurrentWeather from "./CurrentWeather/CurrentWeather";
+import Forecast from "./Forecast/Forecast";
 
-import styles from './weatherStyles.js';
+import styles from "./weatherStyles.js";
 
 class Weather extends React.Component {
   render() {
@@ -15,12 +16,13 @@ class Weather extends React.Component {
 
     return (
       <Grid container spacing={16}>
-        <Grid item lg={6}>
+        <Grid item lg={6} md={12}>
           <CurrentWeather />
         </Grid>
-        <Grid item lg={4}>
+        <Grid item lg={6} md={12}>
           <Airly />
         </Grid>
+        <Forecast />
       </Grid>
     );
   }

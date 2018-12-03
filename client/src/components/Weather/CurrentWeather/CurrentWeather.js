@@ -1,15 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Grid, withStyles } from '@material-ui/core';
-import { getWeather } from '../../../actions/weatherActions.js';
+import React from "react";
+import { connect } from "react-redux";
+import { Grid, withStyles } from "@material-ui/core";
+import { getWeather } from "../../../actions/weatherActions.js";
 
-import PaperItem from '../../_shared/PaperItem/PaperItem.js';
+import PaperItem from "../../_shared/PaperItem/PaperItem.js";
 
-import styles from './currentWeatherStyles.js';
+import styles from "./currentWeatherStyles.js";
 
 class CurrentWeather extends React.Component {
   componentDidMount() {
-    this.props.getWeather();
+    this.props.getWeather("Katowice");
   }
 
   render() {
@@ -19,7 +19,7 @@ class CurrentWeather extends React.Component {
         <div className={classes.container}>
           <Grid container>
             <Grid item lg={2}>
-              <img src={weather.icon} />
+              <img src={weather.icon} alt="icon" />
             </Grid>
             <Grid item>
               <div>
@@ -32,21 +32,37 @@ class CurrentWeather extends React.Component {
               </div>
             </Grid>
           </Grid>
-          <Grid container spacing={16}>
+          <Grid container className={classes.parameters}>
             <Grid item lg={3}>
-              Wiatr: {weather.wind} m/s
+              Wiatr
             </Grid>
 
             <Grid item lg={3}>
-              Chmury: {weather.clouds}%
+              Chmury
             </Grid>
 
             <Grid item lg={3}>
-              Wilgotność: {weather.humidity}%
+              Wilgotność
             </Grid>
 
             <Grid item lg={3}>
-              Ciśnienie: {weather.pressure}hPa
+              Ciśnienie
+            </Grid>
+
+            <Grid item lg={3}>
+              {weather.wind} m/s
+            </Grid>
+
+            <Grid item lg={3}>
+              {weather.clouds}%
+            </Grid>
+
+            <Grid item lg={3}>
+              {weather.humidity}%
+            </Grid>
+
+            <Grid item lg={3}>
+              {weather.pressure}hPa
             </Grid>
           </Grid>
         </div>

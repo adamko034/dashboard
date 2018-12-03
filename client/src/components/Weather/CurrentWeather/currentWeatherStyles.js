@@ -1,11 +1,12 @@
 export default {
   container: {
-    height: '147px'
+    textAlign: "center",
+    padding: "10px"
   },
   main: {
-    margin: '0'
+    margin: "0"
   },
   description: {
-    marginLeft: '20px'
+    marginLeft: "20px"
   }
 };
