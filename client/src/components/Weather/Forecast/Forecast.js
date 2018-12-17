@@ -13,7 +13,13 @@ import {
   Tooltip
 } from '@devexpress/dx-react-chart-material-ui';
 import Paper from '@material-ui/core/Paper';
-import { Scale, EventTracker, Animation } from '@devexpress/dx-react-chart';
+import {
+  Scale,
+  EventTracker,
+  Animation,
+  BarSeries,
+  Stack
+} from '@devexpress/dx-react-chart';
 
 import styles from './forecastStyles.js';
 
@@ -41,6 +47,14 @@ const HoursLabel = props => {
   return <ArgumentAxis.Label {...props} text={`${dt.getHours()}:00`} />;
 };
 
+const WindLabel = props => {
+  return <ValueAxis.Label {...props} text={props.text + ' m/s'} />;
+};
+
+const FallLabel = props => {
+  return <ValueAxis.Label {...props} text={props.text + ' mm'} />;
+};
+
 class Forecast extends React.Component {
   componentDidMount() {
     this.props.getForecast('Katowice', 2.5);
@@ -49,39 +63,107 @@ class Forecast extends React.Component {
   render() {
     const { forecast } = this.props;
 
-    var data2 = forecast.map(forec => {
+    var dataTemperature = forecast.map(forec => {
       return {
         date: forec.date,
         temp: forec.temp
       };
     });
 
-    return (
-      <Paper>
-        <Chart data={data2}>
-          <ArgumentAxis
-            showTicks={false}
-            showLine={false}
-            indentFromAxis={20}
-            position="top"
-            labelComponent={DaysLabel}
-          />
-          <ArgumentAxis
-            showGrids={true}
-            indentFromAxis={20}
-            position="bottom"
-            labelComponent={HoursLabel}
-          />
-          <ValueAxis showGrids />
+    var dataFalls = forecast.map(forec => {
+      return {
+        date: forec.date,
+        snow: forec.snow,
+        rain: 0.1,
+        wind: forec.wind
+      };
+    });
 
-          <SplineSeries valueField="temp" argumentField="date" />
-          <Animation />
-          <Title text="Temperature" />
-          <Scale />
-          <EventTracker />
-          <Tooltip />
-        </Chart>
-      </Paper>
+    console.log(dataFalls);
+
+    return (
+      <div>
+        <Paper>
+          <Chart data={dataTemperature}>
+            <ArgumentAxis
+              showTicks={false}
+              showLine={false}
+              indentFromAxis={20}
+              position="top"
+              labelComponent={DaysLabel}
+            />
+            <ArgumentAxis
+              showGrids={true}
+              indentFromAxis={20}
+              position="bottom"
+              labelComponent={HoursLabel}
+            />
+            <ValueAxis showGrids />
+
+            <SplineSeries valueField="temp" argumentField="date" />
+            <Animation />
+            <Title text="Temperature" />
+            <Scale />
+            <EventTracker />
+            <Tooltip />
+          </Chart>
+        </Paper>
+
+        <br />
+        <Paper>
+          <Chart data={dataFalls}>
+            <ArgumentAxis
+              showTicks={false}
+              showLine={false}
+              indentFromAxis={20}
+              position="top"
+              labelComponent={DaysLabel}
+            />
+            <ArgumentAxis
+              //showGrids={false}
+              indentFromAxis={50}
+              //position="bottom"
+              labelComponent={HoursLabel}
+            />
+            <ValueAxis
+              //showGrids
+              scaleName="falls"
+              labelComponent={FallLabel}
+            />
+            <ValueAxis
+              //showGrids={false}
+              scaleName="wind"
+              position="right"
+              labelComponent={WindLabel}
+            />
+
+            <BarSeries
+              name="SnowFall"
+              valueField="snow"
+              argumentField="date"
+              scaleName="falls"
+            />
+            <BarSeries
+              name="RainFall"
+              valueField="rain"
+              argumentField="date"
+              color="#235e14"
+              scaleName="falls"
+            />
+            {/* <SplineSeries
+              valueField="wind"
+              argumentField="date"
+              scaleName="wind"
+              color="#bb4242"
+            /> */}
+
+            <Animation />
+            <Title text="Falls and Wind" />
+            <Stack />
+            <Scale />
+          </Chart>
+        </Paper>
+      </div>
     );
   }
 }
