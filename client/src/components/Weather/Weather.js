@@ -22,7 +22,9 @@ class Weather extends React.Component {
         <Grid item lg={6} md={12}>
           <Airly />
         </Grid>
-        <Forecast />
+        <Grid item lg={12} md={12}>
+          <Forecast />
+        </Grid>
       </Grid>
     );
   }

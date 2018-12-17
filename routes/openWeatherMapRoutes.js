@@ -45,7 +45,7 @@ module.exports = app => {
         temp: f.main.temp,
         wind: f.wind.speed,
         clouds: f.clouds.all,
-        rain: f.rain["3h"] || 0,
+        rain: f.rain ? f.rain["3h"] || 0 : 0,
         snow: f.snow ? f.snow["3h"] || 0 : 0
       };
     });
