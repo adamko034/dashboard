@@ -1,9 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
-import { getForecast } from "../../../actions/weatherActions.js";
-import { withStyles } from "@material-ui/core";
-import PropTypes from "prop-types";
-import * as _ from "lodash";
+import React from 'react';
+import { connect } from 'react-redux';
+import { getForecast } from '../../../actions/weatherActions.js';
+import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import * as _ from 'lodash';
 import {
   Chart,
   ArgumentAxis,
@@ -11,30 +11,39 @@ import {
   SplineSeries,
   Title,
   Tooltip
-} from "@devexpress/dx-react-chart-material-ui";
-import Paper from "@material-ui/core/Paper";
-import { Scale, EventTracker } from "@devexpress/dx-react-chart";
-import * as d3 from "d3-scale";
+} from '@devexpress/dx-react-chart-material-ui';
+import Paper from '@material-ui/core/Paper';
+import { Scale, EventTracker, Animation } from '@devexpress/dx-react-chart';
 
-import styles from "./forecastStyles.js";
+import styles from './forecastStyles.js';
 
-function getCustomDate(date) {
-  var dt = new Date(date);
-  var dayName = dt.toLocaleDateString("en-US", { weekday: "short" });
+let currentDay;
 
-  return `${dayName} ${dt.getHours()}h`;
-}
+const DaysLabel = props => {
+  const { text } = props;
 
-function getTimeScaler() {
-  var x = d3.scaleTime();
-  x.ticks(d3.timeHour.every(3));
+  var dt = new Date(text);
+  var dayName = dt.toLocaleDateString('en-US', { weekday: 'long' });
 
-  return x;
-}
+  if (currentDay === dayName) {
+    dayName = '';
+  } else {
+    currentDay = dayName;
+  }
+  return <ArgumentAxis.Label {...props} text={dayName} />;
+};
+
+const HoursLabel = props => {
+  const { text } = props;
+
+  var dt = new Date(text);
+
+  return <ArgumentAxis.Label {...props} text={`${dt.getHours()}:00`} />;
+};
 
 class Forecast extends React.Component {
   componentDidMount() {
-    this.props.getForecast("Katowice", 2.5);
+    this.props.getForecast('Katowice', 2.5);
   }
 
   render() {
@@ -42,20 +51,33 @@ class Forecast extends React.Component {
 
     var data2 = forecast.map(forec => {
       return {
-        date: new Date(forec.date), //getCustomDate(forec.date),
+        date: forec.date,
         temp: forec.temp
       };
     });
 
     return (
       <Paper>
-        <Chart data={data2} height={200}>
-          <ArgumentAxis showGrids indentFromAxis="20" type="time" />
+        <Chart data={data2}>
+          <ArgumentAxis
+            showTicks={false}
+            showLine={false}
+            indentFromAxis={20}
+            position="top"
+            labelComponent={DaysLabel}
+          />
+          <ArgumentAxis
+            showGrids={true}
+            indentFromAxis={20}
+            position="bottom"
+            labelComponent={HoursLabel}
+          />
           <ValueAxis showGrids />
 
           <SplineSeries valueField="temp" argumentField="date" />
+          <Animation />
           <Title text="Temperature" />
-          <Scale extensions={[{ type: "time", constructor: getTimeScaler }]} />
+          <Scale />
           <EventTracker />
           <Tooltip />
         </Chart>
