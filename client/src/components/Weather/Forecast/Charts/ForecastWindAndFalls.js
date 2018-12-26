@@ -8,9 +8,6 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 import Paper from "@material-ui/core/Paper";
 import { Scale, Animation, BarSeries, Stack } from "@devexpress/dx-react-chart";
-
-import * as _ from "lodash";
-
 import { DaysLabel, HoursLabel, FallLabel, WindLabel } from "./chartLabels.js";
 
 class ForecastWindAndFalls extends React.Component {

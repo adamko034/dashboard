@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   withStyles,
   Hidden,
@@ -7,37 +7,32 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  Icon,
   ListItemText
-} from '@material-ui/core';
-import classNames from 'classnames';
-import { Group, WbSunny } from '@material-ui/icons';
-import PropTypes from 'prop-types';
+} from "@material-ui/core";
+import classNames from "classnames";
+import { Group, WbSunny } from "@material-ui/icons";
+import PropTypes from "prop-types";
 
-import styles from './sidebarStyles.js';
-import sideBarStyles from '../../assets/jss/material-dashboard/components/sidebar/material-dashboard-sidebarStyles';
-import logo from '../../assets/images/reactlogo.png';
+import styles from "./sidebarStyles.js";
+import sideBarStyles from "../../assets/jss/material-dashboard/components/sidebar/material-dashboard-sidebarStyles";
+import logo from "../../assets/images/reactlogo.png";
 
-import combineStyles from '../../utils/combineStyles';
+import combineStyles from "../../utils/combineStyles";
 
 const NavigationItems = [
   {
-    title: 'Weather',
+    title: "Weather",
     icon: WbSunny,
-    path: 'weather'
+    path: "weather"
   },
   {
-    title: 'Social',
+    title: "Social",
     icon: Group,
-    path: 'social'
+    path: "social"
   }
 ];
 
 class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   isActiveRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
@@ -45,11 +40,11 @@ class Sidebar extends React.Component {
   renderItems(classes) {
     return NavigationItems.map(item => {
       const listItemClasses = classNames({
-        [' ' + classes['blue']]: this.isActiveRoute(item.path)
+        [" " + classes["blue"]]: this.isActiveRoute(item.path)
       });
 
       const whiteFontClasses = classNames({
-        [' ' + classes.whiteFont]: this.isActiveRoute(item.path)
+        [" " + classes.whiteFont]: this.isActiveRoute(item.path)
       });
 
       return (

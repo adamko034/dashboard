@@ -10,7 +10,7 @@ export const DaysLabel = props => {
   const { text } = props;
 
   var dt = new Date(text);
-  var dayName = dt.toLocaleDateString("en-US", { weekday: "long" });
+  var dayName = dt.toLocaleDateString("en-US", { weekday: "short" });
 
   if (currentDay === dayName) {
     dayName = "";

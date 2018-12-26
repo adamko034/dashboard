@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { getForecast } from "../../../actions/weatherActions.js";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import * as _ from "lodash";
-
 import styles from "./forecastStyles.js";
 import ForecastTemperature from "./Charts/ForecastTemperature.js";
 import ForecastWindAndFalls from "./Charts/ForecastWindAndFalls.js";
