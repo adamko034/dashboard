@@ -9,6 +9,7 @@ import styles from "./dashboardStyles.js";
 import Sidebar from "../../components/Sidebar/Sidebar.js";
 import Weather from "../../components/Weather/Weather.js";
 import Social from "../../components/Social/Social.js";
+import Header from "../../components/Header/Header";
 
 import sideBarImage from "../../assets/images/arjen.jpg";
 
@@ -33,10 +34,8 @@ class Dashboard extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar image={sideBarImage} {...rest} />
-
         <div className={classes.mainPanel} ref="mainPanel">
-          {this.renderHeader(auth)}
-
+          <Header />
           <div className={classes.content}>
             <div className={classes.container}>
               <Switch>

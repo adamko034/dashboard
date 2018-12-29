@@ -7,3 +7,10 @@ export const fetchUser = () => async dispatch => {
 
   dispatch({ type: AUTH_GET, payload: result.data });
 };
+
+export const logout = () => async dispatch => {
+  const url = "/api/logout";
+  await axios.post(url);
+
+  dispatch({ type: AUTH_GET });
+};

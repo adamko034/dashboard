@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 
 import styles from "./sidebarStyles.js";
 import sideBarStyles from "../../assets/jss/material-dashboard/components/sidebar/material-dashboard-sidebarStyles";
-import logo from "../../assets/images/reactlogo.png";
+import { connect } from "react-redux";
 
 import combineStyles from "../../utils/combineStyles";
 
@@ -35,6 +35,22 @@ const NavigationItems = [
 class Sidebar extends React.Component {
   isActiveRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
+  }
+
+  renderWelcome(classes, auth) {
+    if (auth) {
+      return (
+        <div className={classes.welcome}>
+          <span>Hi, {auth.forename}!</span>
+        </div>
+      );
+    }
+
+    return (
+      <div className={classes.welcome}>
+        <span>My Dashboard</span>
+      </div>
+    );
   }
 
   renderItems(classes) {
@@ -69,7 +85,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { classes, image } = this.props;
+    const { classes, image, auth } = this.props;
 
     return (
       <Hidden smDown implementation="css">
@@ -81,14 +97,7 @@ class Sidebar extends React.Component {
             paper: classes.drawerPaper
           }}
         >
-          <div className={classes.logo}>
-            <a href="https://www.creative-tim.com" className={classes.logoLink}>
-              <div className={classes.logoImage}>
-                <img src={logo} alt="logo" className={classes.img} />
-              </div>
-              <span>My Dashboard</span>
-            </a>
-          </div>
+          {this.renderWelcome(classes, auth)}
           <div className={classes.sidebarWrapper}>
             <List className={classes.list}>{this.renderItems(classes)}</List>
           </div>
@@ -106,4 +115,11 @@ Sidebar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(combineStyles(styles, sideBarStyles))(Sidebar);
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(withStyles(combineStyles(styles, sideBarStyles))(Sidebar));
