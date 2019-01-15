@@ -19,8 +19,11 @@ import { withStyles } from "@material-ui/core/styles";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { updateCity, updateForecastHours } from "../../actions/settingsActions";
+import * as _ from "lodash";
 
 import styles from "./settingsStyles";
+import commonStyles from "../../assets/jss/commonStyles";
+import combineStyles from "../../utils/combineStyles";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -31,7 +34,8 @@ class Settings extends React.Component {
       city: "",
       forecastHours: 0,
       twitters: [],
-      twitterChanged: false
+      twitterChanged: false,
+      newTwitter: ""
     };
   }
 
@@ -78,15 +82,15 @@ class Settings extends React.Component {
       twittersToShow = this.props.auth.settings.twitters;
     }
 
-    console.log("rendering twitters " + twittersToShow[0]);
-
     return twittersToShow.map(twitter => {
-      console.log("twitter: " + twitter);
       return (
         <ListItem key={twitter}>
           <ListItemText primary={twitter} />
           <ListItemSecondaryAction>
-            <IconButton aria-label="Delete">
+            <IconButton
+              aria-label="Delete"
+              onClick={this.onTwitterDeleted(twitter)}
+            >
               <DeleteIcon />
             </IconButton>
           </ListItemSecondaryAction>
@@ -95,14 +99,29 @@ class Settings extends React.Component {
     });
   }
 
-  onTwitterAdded = event => {
-    const currentTwitters = this.state.twitters;
-    currentTwitters.push("test fdsfa ds");
+  onTwitterDeleted(twitterToRemove) {
+    let { twitters: currentTwitters } = this.state;
+
+    currentTwitters = _.remove(currentTwitters, twitter => {
+      return twitter === twitterToRemove;
+    });
+
+    this.setState({ twitters: currentTwitters });
+  }
+
+  onTwitterAdded = () => {
+    const { twitters: currentTwitters, newTwitter } = this.state;
+    currentTwitters.push(newTwitter);
 
     this.setState({
       twitterChanged: true,
-      twitters: currentTwitters
+      twitters: currentTwitters,
+      newTwitter: ""
     });
+  };
+
+  newTwitterOnChange = event => {
+    this.setState({ newTwitter: event.target.value });
   };
 
   render() {
@@ -150,15 +169,26 @@ class Settings extends React.Component {
             <ExpansionPanelDetails>
               <div>
                 <List>{this.renderTwitters()}</List>
-
-                <Fab
-                  color="primary"
-                  size="small"
-                  aria-label="Add"
-                  onClick={this.onTwitterAdded}
-                >
-                  <AddIcon />
-                </Fab>
+                <div className={classes.containerCenter}>
+                  <TextField
+                    id="newTwitter"
+                    label="New Twitter to follow"
+                    margin="dense"
+                    type="text"
+                    variant="outlined"
+                    className={classes.textField}
+                    value={this.state.newTwitter}
+                    onChange={this.newTwitterOnChange}
+                  />
+                  <Fab
+                    color="primary"
+                    size="small"
+                    aria-label="Add"
+                    onClick={this.onTwitterAdded}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </div>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -175,4 +205,4 @@ function mapStateToProps({ auth }) {
 export default connect(
   mapStateToProps,
   { updateCity, updateForecastHours }
-)(withStyles(styles)(Settings));
+)(withStyles(combineStyles(styles, commonStyles))(Settings));
