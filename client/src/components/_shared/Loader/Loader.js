@@ -1,8 +1,33 @@
-import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
 
-const Loader = () => {
-  return <CircularProgress />;
+const styles = {
+  containerCenter: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  progressCenter: {
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }
 };
 
-export default Loader;
+const Loader = props => {
+  const { center, classes } = props;
+  const centerContainerClass = center ? classes.containerCenter : '';
+  const centerProgressClass = center ? classes.progressCenter : '';
+
+  return (
+    <div className={centerContainerClass}>
+      <CircularProgress
+        className={centerProgressClass}
+        disableShrink
+        size={50}
+      />
+    </div>
+  );
+};
+
+export default withStyles(styles)(Loader);

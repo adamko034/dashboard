@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { getForecast } from "../../../actions/weatherActions.js";
-import { withStyles } from "@material-ui/core";
-import PropTypes from "prop-types";
-import styles from "./forecastStyles.js";
-import ForecastTemperature from "./Charts/ForecastTemperature.js";
-import ForecastWindAndFalls from "./Charts/ForecastWindAndFalls.js";
+import React from 'react';
+import { connect } from 'react-redux';
+import { getForecast } from '../../../actions/weatherActions.js';
+import { withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import styles from './forecastStyles.js';
+import ForecastTemperature from './Charts/ForecastTemperature.js';
+import ForecastWindAndFalls from './Charts/ForecastWindAndFalls.js';
 
-import Loader from "../../_shared/Loader/Loader";
+import Loader from '../../_shared/Loader/Loader';
 
 class Forecast extends React.Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class Forecast extends React.Component {
     const { forecast, classes } = this.props;
 
     if (!forecast) {
-      return <Loader />;
+      return <Loader center />;
     }
 
     var dataTemperature = forecast.map(forec => {

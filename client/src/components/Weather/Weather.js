@@ -1,19 +1,17 @@
-import React from "react";
-import { Typography, Grid } from "@material-ui/core";
-import { connect } from "react-redux";
+import React from 'react';
+import { Typography, Grid } from '@material-ui/core';
+import { connect } from 'react-redux';
 
-import Airly from "./Airly/Airly";
-import CurrentWeather from "./CurrentWeather/CurrentWeather";
-import Forecast from "./Forecast/Forecast";
+import Airly from './Airly/Airly';
+import CurrentWeather from './CurrentWeather/CurrentWeather';
+import Forecast from './Forecast/Forecast';
 
 class Weather extends React.Component {
   getPageTitle() {
-    let pageTitle = "Weather & Air Condition:";
-    if (this.props.auth) {
-      pageTitle += " " + this.props.auth.settings.city;
-    }
-
-    return pageTitle;
+    return (
+      'Weather & Air Condition: ' +
+      (this.props.auth ? this.props.auth.settings.city : 'Katowice')
+    );
   }
 
   renderPageTitle() {

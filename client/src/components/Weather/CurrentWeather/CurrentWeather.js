@@ -1,24 +1,24 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Grid, withStyles } from "@material-ui/core";
-import { getWeather } from "../../../actions/weatherActions.js";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Grid, withStyles } from '@material-ui/core';
+import { getWeather } from '../../../actions/weatherActions.js';
 
-import PaperItem from "../../_shared/PaperItem/PaperItem.js";
-import Loader from "../../_shared/Loader/Loader";
+import PaperItem from '../../_shared/PaperItem/PaperItem.js';
+import Loader from '../../_shared/Loader/Loader';
 
-import styles from "./currentWeatherStyles.js";
+import styles from './currentWeatherStyles.js';
 
 class CurrentWeather extends React.Component {
   componentDidMount() {
-    this.props.getWeather("Warszawa");
+    this.props.getWeather();
   }
 
   render() {
     const { weather, classes } = this.props;
-    console.log("render weather: " + JSON.stringify(weather));
+    console.log('render weather: ' + JSON.stringify(weather));
 
     if (!weather) {
-      return <Loader />;
+      return <Loader center />;
     }
 
     return (
