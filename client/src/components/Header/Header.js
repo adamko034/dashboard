@@ -1,14 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Menu,
-  MenuItem,
-  IconButton
-} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Menu, MenuItem, IconButton } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import Button from "../_shared/Button/Button";
 import { withStyles } from "@material-ui/core/styles";
@@ -32,7 +26,7 @@ class Header extends React.Component {
     this.setState({ accountMenuAnchorEl: null });
   };
 
-  renderWelcome(auth, classes) {
+  initializeMenu(auth, classes) {
     if (auth) {
       const { accountMenuAnchorEl } = this.state;
       return (
@@ -49,7 +43,9 @@ class Header extends React.Component {
             open={Boolean(accountMenuAnchorEl)}
             onClose={this.handleAccountMenuClose}
           >
-            <MenuItem className={classes.menuItem}>Settings</MenuItem>
+            <MenuItem className={classes.menuItem}>
+              <Link to="/settings">Settings</Link>
+            </MenuItem>
             <MenuItem className={classes.menuItem}>
               <a href="/api/logout/">Logout</a>
             </MenuItem>
@@ -63,16 +59,10 @@ class Header extends React.Component {
 
   render() {
     const { classes, auth } = this.props;
-
     return (
       <div className={classes.root}>
         <AppBar position="static" color="inherit" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              Dashboard
-            </Typography>
-            {this.renderWelcome(auth, classes)}
-          </Toolbar>
+          <Toolbar>{this.initializeMenu(auth, classes)}</Toolbar>
         </AppBar>
       </div>
     );

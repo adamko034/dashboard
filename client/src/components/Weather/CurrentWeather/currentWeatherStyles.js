@@ -4,7 +4,10 @@ export default {
     padding: "10px"
   },
   main: {
-    margin: "0"
+    margin: "0",
+    city: {
+      float: "right"
+    }
   },
   description: {
     marginLeft: "20px"

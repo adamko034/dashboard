@@ -7,13 +7,19 @@ import styles from "./forecastStyles.js";
 import ForecastTemperature from "./Charts/ForecastTemperature.js";
 import ForecastWindAndFalls from "./Charts/ForecastWindAndFalls.js";
 
+import Loader from "../../_shared/Loader/Loader";
+
 class Forecast extends React.Component {
   componentDidMount() {
-    this.props.getForecast("Katowice", 2.5);
+    this.props.getForecast();
   }
 
   render() {
     const { forecast, classes } = this.props;
+
+    if (!forecast) {
+      return <Loader />;
+    }
 
     var dataTemperature = forecast.map(forec => {
       return {
@@ -48,8 +54,8 @@ Forecast.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-function mapStateToProps({ forecast }) {
-  return { forecast };
+function mapStateToProps({ auth, forecast }) {
+  return { auth, forecast };
 }
 
 export default connect(

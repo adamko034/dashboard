@@ -1,6 +1,7 @@
 const styles = {
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    float: "right"
   },
   grow: {
     flexGrow: 1

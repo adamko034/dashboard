@@ -6,13 +6,13 @@ const openWeatherUrl = "http://api.openweathermap.org/data/2.5/";
 const openWeatherApiKeyParam = `&APPID=${keys.openWeatherMapApiKey}`;
 
 module.exports = app => {
-  app.get("/api/weather/current/:city", async (req, res) => {
+  app.get("/api/weather/current", async (req, res) => {
     const url = `${openWeatherUrl}weather?q=${
-      req.params.city
+      req.user.settings.city
     },pl&lang=pl&units=metric${openWeatherApiKeyParam}`;
 
     const {
-      data: { weather, main, wind, clouds }
+      data: { weather, main, wind, clouds, name }
     } = await axios.get(url);
 
     res.send({
@@ -24,13 +24,14 @@ module.exports = app => {
       minTemp: main.temp_min,
       maxTemp: main.temp_max,
       wind: wind.speed,
-      clouds: clouds.all
+      clouds: clouds.all,
+      city: name
     });
   });
 
-  app.get("/api/weather/forecast/:city/:days?", async (req, res) => {
+  app.get("/api/weather/forecast", async (req, res) => {
     const url = `${openWeatherUrl}forecast?q=${
-      req.params.city
+      req.user.settings.city
     },pl&units=metric${openWeatherApiKeyParam}`;
 
     const {
@@ -38,7 +39,7 @@ module.exports = app => {
     } = await axios.get(url);
     const forecastMapped = _.take(
       forecast,
-      Math.round(((req.params.days || 3) * 24) / 3)
+      Math.round((req.user.settings.forecastHours || 72) / 3)
     ).map(f => {
       return {
         date: new Date(parseInt(f.dt) * 1000),

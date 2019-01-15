@@ -33,6 +33,11 @@ const NavigationItems = [
 ];
 
 class Sidebar extends React.Component {
+  componentDidMount() {
+    console.log(
+      "componenet did mount sidebar " + JSON.stringify(this.props.auth)
+    );
+  }
   isActiveRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }

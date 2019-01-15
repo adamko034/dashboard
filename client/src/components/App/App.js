@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchUser } from "../../actions/authActions";
 
@@ -7,6 +7,7 @@ import Dashboard from "../../layouts/Dashboard/Dashboard.js";
 
 class App extends React.Component {
   componentDidMount() {
+    console.log("componenet did mount app ");
     this.props.fetchUser();
   }
 
@@ -14,9 +15,7 @@ class App extends React.Component {
     return (
       <div>
         <BrowserRouter>
-          <Switch>
-            <Route path="/" component={Dashboard} />
-          </Switch>
+          <Route path="/" component={Dashboard} />
         </BrowserRouter>
       </div>
     );

@@ -15,6 +15,7 @@ mongoose.connect(
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -27,6 +28,7 @@ app.use(passport.session());
 
 require("./routes/openWeatherMapRoutes")(app);
 require("./routes/authRoutes")(app);
+require("./routes/settingsRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
