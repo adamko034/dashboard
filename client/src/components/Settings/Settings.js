@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   Typography,
   ExpansionPanel,
@@ -12,18 +12,18 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Fab
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AddIcon from "@material-ui/icons/Add";
-import { withStyles } from "@material-ui/core/styles";
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+import { withStyles } from '@material-ui/core/styles';
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { updateCity, updateForecastHours } from "../../actions/settingsActions";
-import * as _ from "lodash";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { updateCity, updateForecastHours } from '../../actions/settingsActions';
+import * as _ from 'lodash';
 
-import styles from "./settingsStyles";
-import commonStyles from "../../assets/jss/commonStyles";
-import combineStyles from "../../utils/combineStyles";
+import styles from './settingsStyles';
+import commonStyles from '../../assets/jss/commonStyles';
+import combineStyles from '../../utils/combineStyles';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -31,11 +31,11 @@ class Settings extends React.Component {
 
     this.state = {
       cityChanged: false,
-      city: "",
+      city: '',
       forecastHours: 0,
       twitters: [],
       twitterChanged: false,
-      newTwitter: ""
+      newTwitter: ''
     };
   }
 
@@ -88,8 +88,9 @@ class Settings extends React.Component {
           <ListItemText primary={twitter} />
           <ListItemSecondaryAction>
             <IconButton
+              data-value={twitter}
               aria-label="Delete"
-              onClick={this.onTwitterDeleted(twitter)}
+              onClick={this.onTwitterDeleted}
             >
               <DeleteIcon />
             </IconButton>
@@ -99,15 +100,13 @@ class Settings extends React.Component {
     });
   }
 
-  onTwitterDeleted(twitterToRemove) {
-    let { twitters: currentTwitters } = this.state;
-
-    currentTwitters = _.remove(currentTwitters, twitter => {
-      return twitter === twitterToRemove;
-    });
+  onTwitterDeleted = event => {
+    const { twitters: currentTwitters } = this.state;
+    const twitterToRemove = event.currentTarget.attributes['data-value'].value;
+    _.pull(currentTwitters, twitterToRemove);
 
     this.setState({ twitters: currentTwitters });
-  }
+  };
 
   onTwitterAdded = () => {
     const { twitters: currentTwitters, newTwitter } = this.state;
@@ -116,13 +115,21 @@ class Settings extends React.Component {
     this.setState({
       twitterChanged: true,
       twitters: currentTwitters,
-      newTwitter: ""
+      newTwitter: ''
     });
   };
 
   newTwitterOnChange = event => {
     this.setState({ newTwitter: event.target.value });
   };
+
+  addingTwitterDisabled() {
+    return this.state.twitters.length > 2;
+  }
+
+  getTwitterRestrictionMessageColor() {
+    return this.state.twitters.length > 2 ? 'error' : 'default';
+  }
 
   render() {
     const { classes } = this.props;
@@ -179,16 +186,24 @@ class Settings extends React.Component {
                     className={classes.textField}
                     value={this.state.newTwitter}
                     onChange={this.newTwitterOnChange}
+                    disabled={this.addingTwitterDisabled()}
                   />
                   <Fab
                     color="primary"
                     size="small"
                     aria-label="Add"
                     onClick={this.onTwitterAdded}
+                    disabled={this.addingTwitterDisabled()}
                   >
                     <AddIcon />
                   </Fab>
                 </div>
+                <Typography
+                  variant="subtitle1"
+                  color={this.getTwitterRestrictionMessageColor()}
+                >
+                  You can add up to 3 Twitter accounts to follow.
+                </Typography>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
