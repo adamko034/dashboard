@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   Typography,
   ExpansionPanel,
@@ -13,18 +13,23 @@ import {
   IconButton,
   Fab,
   Divider
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-import { withStyles } from '@material-ui/core/styles';
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
+import { withStyles } from "@material-ui/core/styles";
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { updateCity, updateForecastHours } from '../../actions/settingsActions';
-import * as _ from 'lodash';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {
+  updateCity,
+  updateForecastHours,
+  addTwitter,
+  deleteTwitter
+} from "../../actions/settingsActions";
+import * as _ from "lodash";
 
-import styles from './settingsStyles';
-import commonStyles from '../../assets/jss/commonStyles';
-import combineStyles from '../../utils/combineStyles';
+import styles from "./settingsStyles";
+import commonStyles from "../../assets/jss/commonStyles";
+import combineStyles from "../../utils/combineStyles";
 
 class Settings extends React.Component {
   constructor(props) {
@@ -32,21 +37,19 @@ class Settings extends React.Component {
 
     this.state = {
       cityChanged: false,
-      city: '',
+      newCity: "",
       forecastHours: 0,
-      twitters: [],
-      twitterChanged: false,
-      newTwitter: ''
+      newTwitter: ""
     };
   }
 
   weatherDefaultCityOnChange = event => {
-    this.setState({ city: event.target.value, cityChanged: true });
+    this.setState({ newCity: event.target.value, cityChanged: true });
   };
 
   weatherDefaultCityOnBlur = () => {
-    if (this.state.city) {
-      this.props.updateCity(this.state.city);
+    if (this.state.newCity) {
+      this.props.updateCity(this.state.newCity);
     }
   };
 
@@ -55,7 +58,7 @@ class Settings extends React.Component {
       return this.props.auth.settings.city;
     }
 
-    return this.state.city;
+    return this.state.newCity;
   }
 
   foreactHoursOnChange = event => {
@@ -77,16 +80,12 @@ class Settings extends React.Component {
   }
 
   renderTwitters() {
-    let twittersToShow = this.state.twitters;
-
-    if (this.props.auth && !this.state.twitterChanged) {
-      twittersToShow = this.props.auth.settings.twitters;
-    }
+    const twittersToShow = this.getTwitters();
 
     return twittersToShow.map(twitter => {
       return (
-        <div>
-          <ListItem key={twitter}>
+        <div key={twitter}>
+          <ListItem>
             <ListItemText primary={twitter} />
             <ListItemSecondaryAction>
               <IconButton
@@ -104,37 +103,47 @@ class Settings extends React.Component {
   }
 
   onTwitterDeleted = twitter => {
-    const { twitters: currentTwitters } = this.state;
+    const { twitters: currentTwitters } = this.props.auth.settings;
     _.pull(currentTwitters, twitter);
 
-    this.setState({ twitters: currentTwitters });
+    this.props.deleteTwitter(twitter);
   };
 
   onTwitterAdded = () => {
-    const { twitters: currentTwitters, newTwitter } = this.state;
-    currentTwitters.push(newTwitter);
+    const { twitters: currentTwitters } = this.props.auth.settings;
+    const { newTwitter } = this.state;
 
-    this.setState({
-      twitterChanged: true,
-      twitters: currentTwitters,
-      newTwitter: ''
-    });
+    if (newTwitter !== "") {
+      currentTwitters.push(newTwitter);
+
+      this.props.addTwitter(newTwitter);
+      this.setState({ newTwitter: "" });
+    }
   };
 
   newTwitterOnChange = event => {
     this.setState({ newTwitter: event.target.value });
   };
 
+  getTwitters() {
+    if (this.props.auth) {
+      return this.props.auth.settings.twitters;
+    }
+
+    return [];
+  }
+
   addingTwitterDisabled() {
-    return this.state.twitters.length > 2;
+    return this.getTwitters().length > 2;
   }
 
   getTwitterRestrictionMessageColor() {
-    return this.state.twitters.length > 2 ? 'error' : 'default';
+    return this.getTwitters().length > 2 ? "error" : "default";
   }
 
   render() {
     const { classes } = this.props;
+    console.log("rendering settings");
     return (
       <div>
         <Typography variant="h6" color="inherit">
@@ -221,5 +230,5 @@ function mapStateToProps({ auth }) {
 
 export default connect(
   mapStateToProps,
-  { updateCity, updateForecastHours }
+  { updateCity, updateForecastHours, addTwitter, deleteTwitter }
 )(withStyles(combineStyles(styles, commonStyles))(Settings));

@@ -14,3 +14,18 @@ export const updateForecastHours = forecastHours => async dispatch => {
 
   dispatch({ type: AUTH_GET, payload: res.data });
 };
+
+export const addTwitter = twitter => async dispatch => {
+  const url = "/api/settings/twitters";
+  const res = await axios.post(url, { twitter });
+
+  dispatch({ type: AUTH_GET, payload: res.data });
+};
+
+export const deleteTwitter = twitter => async dispatch => {
+  console.log("delete twitter from action: " + twitter);
+  const url = "/api/settings/twitters/" + twitter;
+  const res = await axios.delete(url);
+
+  dispatch({ type: AUTH_GET, payload: res.data });
+};
