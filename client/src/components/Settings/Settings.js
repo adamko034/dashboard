@@ -11,7 +11,8 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-  Fab
+  Fab,
+  Divider
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
@@ -84,26 +85,27 @@ class Settings extends React.Component {
 
     return twittersToShow.map(twitter => {
       return (
-        <ListItem key={twitter}>
-          <ListItemText primary={twitter} />
-          <ListItemSecondaryAction>
-            <IconButton
-              data-value={twitter}
-              aria-label="Delete"
-              onClick={this.onTwitterDeleted}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+        <div>
+          <ListItem key={twitter}>
+            <ListItemText primary={twitter} />
+            <ListItemSecondaryAction>
+              <IconButton
+                aria-label="Delete"
+                onClick={this.onTwitterDeleted.bind(this, twitter)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Divider />
+        </div>
       );
     });
   }
 
-  onTwitterDeleted = event => {
+  onTwitterDeleted = twitter => {
     const { twitters: currentTwitters } = this.state;
-    const twitterToRemove = event.currentTarget.attributes['data-value'].value;
-    _.pull(currentTwitters, twitterToRemove);
+    _.pull(currentTwitters, twitter);
 
     this.setState({ twitters: currentTwitters });
   };
