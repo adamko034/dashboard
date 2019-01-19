@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -6,21 +6,18 @@ import styles from "./twitterTimelineStyles.js";
 
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 
-class TwitterTimeline extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.twitterContainer}>
-        <TwitterTimelineEmbed
-          sourceType="profile"
-          screenName="FCBayernEN"
-          options={{ height: 1000 }}
-          theme="dark"
-        />
-      </div>
-    );
-  }
-}
+const TwitterTimeline = props => {
+  return (
+    <div className={props.classes.twitterContainer}>
+      <TwitterTimelineEmbed
+        sourceType="profile"
+        screenName="FCBayernEN"
+        options={{ height: 1000 }}
+        theme="dark"
+      />
+    </div>
+  );
+};
 
 TwitterTimeline.propTypes = {
   classes: PropTypes.object.isRequired

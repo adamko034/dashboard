@@ -9,6 +9,9 @@ const commonStyles = {
   innerCenter: {
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  textFieldMarginRight: {
+    marginRight: "20px"
   }
 };
 

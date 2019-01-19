@@ -4,8 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "../../../assets/jss/commonStyles";
 import classnames from "classnames";
 
-const Loader = props => {
-  const { center, classes } = props;
+const Loader = ({ center, classes }) => {
   const centerContainerClass = center
     ? classnames(classes.containerCenter, classes.height100)
     : "";
