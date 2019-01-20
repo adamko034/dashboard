@@ -3,7 +3,7 @@ import Iframe from "react-iframe";
 
 import PaperItem from "../../_shared/PaperItem/PaperItem.js";
 
-function Airly() {
+const Airly = () => {
   return (
     <PaperItem>
       <Iframe
@@ -15,6 +15,6 @@ function Airly() {
       />
     </PaperItem>
   );
-}
+};
 
 export default Airly;

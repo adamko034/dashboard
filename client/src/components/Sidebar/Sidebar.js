@@ -10,7 +10,7 @@ import {
   ListItemText
 } from "@material-ui/core";
 import classNames from "classnames";
-import { Group, WbSunny } from "@material-ui/icons";
+import { Group, WbSunny, Settings } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
 import styles from "./sidebarStyles.js";
@@ -29,6 +29,11 @@ const NavigationItems = [
     title: "Social",
     icon: Group,
     path: "social"
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+    path: "settings"
   }
 ];
 
@@ -67,7 +72,6 @@ class Sidebar extends React.Component {
         <NavLink to={item.path} className={classes.item} key={item.title}>
           <ListItem
             key={item.title}
-            button
             className={classes.itemLink + listItemClasses}
           >
             <ListItemIcon className={classes.itemIcon + whiteFontClasses}>

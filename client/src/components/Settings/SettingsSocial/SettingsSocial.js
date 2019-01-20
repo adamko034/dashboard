@@ -61,11 +61,11 @@ class Settings extends React.Component {
   }
 
   addingTwitterDisabled() {
-    return this.getTwitters().length > 2;
+    return this.getTwitters().length > 3;
   }
 
   getTwitterRestrictionMessageColor() {
-    return this.getTwitters().length > 2 ? "error" : "default";
+    return this.getTwitters().length > 3 ? "error" : "default";
   }
 
   renderTwitters() {
@@ -128,7 +128,7 @@ class Settings extends React.Component {
               variant="subtitle1"
               color={this.getTwitterRestrictionMessageColor()}
             >
-              You can add up to 3 Twitter accounts to follow.
+              You can add up to 4 Twitter accounts to follow.
             </Typography>
           </div>
         </ExpansionPanelDetails>

@@ -43,10 +43,16 @@ class Header extends React.Component {
             open={Boolean(accountMenuAnchorEl)}
             onClose={this.handleAccountMenuClose}
           >
-            <MenuItem className={classes.menuItem}>
+            <MenuItem
+              onClick={this.handleAccountMenuClose}
+              className={classes.menuItem}
+            >
               <Link to="/settings">Settings</Link>
             </MenuItem>
-            <MenuItem className={classes.menuItem}>
+            <MenuItem
+              onClick={this.handleAccountMenuClose}
+              className={classes.menuItem}
+            >
               <a href="/api/logout/">Logout</a>
             </MenuItem>
           </Menu>

@@ -15,7 +15,6 @@ class CurrentWeather extends React.Component {
 
   render() {
     const { weather, classes } = this.props;
-    console.log("render weather: " + JSON.stringify(weather));
 
     if (!weather) {
       return <Loader center />;
