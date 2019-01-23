@@ -12,21 +12,32 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Fab,
-  Divider
+  Divider,
+  MenuItem
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { addTwitter, deleteTwitter } from "../../../actions/settingsActions";
+import {
+  addTwitter,
+  deleteTwitter,
+  updateTwitterTheme
+} from "../../../actions/settingsActions";
 import * as _ from "lodash";
 
 import commonStyles from "../../../assets/jss//commonStyles";
 
+const twitterThemes = [
+  { value: "dark", label: "Dark" },
+  { value: "light", label: "Light" }
+];
+
 class Settings extends React.Component {
   state = {
-    newTwitter: ""
+    newTwitter: "",
+    twittersTheme: ""
   };
 
   onTwitterDeleted = twitter => {
@@ -91,6 +102,17 @@ class Settings extends React.Component {
     });
   }
 
+  getTwittersThemeValue() {
+    return this.props.auth && this.state.twittersTheme === ""
+      ? this.props.auth.settings.twitterTheme
+      : this.state.twittersTheme;
+  }
+
+  onTwittersThemeChanged = event => {
+    this.setState({ twittersTheme: event.target.value });
+    this.props.updateTwitterTheme(event.target.value);
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -100,7 +122,7 @@ class Settings extends React.Component {
           <Typography variant="h6">Twitters</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <div>
+          <div style={{ marginRight: "30px" }}>
             <List>{this.renderTwitters()}</List>
             <div className={classes.containerCenter}>
               <TextField
@@ -131,6 +153,24 @@ class Settings extends React.Component {
               You can add up to 4 Twitter accounts to follow.
             </Typography>
           </div>
+          <div>
+            <TextField
+              id="twittersThemeSelect"
+              select
+              className={classes.dropdownWidth}
+              label="Twitters theme"
+              margin="dense"
+              variant="outlined"
+              value={this.getTwittersThemeValue()}
+              onChange={this.onTwittersThemeChanged}
+            >
+              {twitterThemes.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
@@ -143,5 +183,5 @@ function mapStateToProps({ auth }) {
 
 export default connect(
   mapStateToProps,
-  { addTwitter, deleteTwitter }
+  { addTwitter, deleteTwitter, updateTwitterTheme }
 )(withStyles(commonStyles)(Settings));

@@ -12,6 +12,9 @@ const commonStyles = {
   },
   textFieldMarginRight: {
     marginRight: "20px"
+  },
+  dropdownWidth: {
+    width: "200px"
   }
 };
 

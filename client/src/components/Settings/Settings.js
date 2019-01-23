@@ -1,24 +1,21 @@
 import React from "react";
 
 import { Typography } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
 
 import SettingsSocial from "./SettingsSocial/SettingsSocial";
 import SettingsWeather from "./SettingsWeather/SettingsWeather";
 
-const styles = {
-  container: {
-    marginTop: "20px"
-  }
-};
-
 const Settings = props => {
+  const style = {
+    marginTop: "20px"
+  };
+
   return (
     <div>
       <Typography variant="h6" color="inherit">
         Settings
       </Typography>
-      <div className={props.classes.container}>
+      <div style={style}>
         <SettingsWeather />
         <SettingsSocial />
       </div>
@@ -26,4 +23,4 @@ const Settings = props => {
   );
 };
 
-export default withStyles(styles)(Settings);
+export default Settings;

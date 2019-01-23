@@ -23,9 +23,14 @@ export const addTwitter = twitter => async dispatch => {
 };
 
 export const deleteTwitter = twitter => async dispatch => {
-  console.log("delete twitter from action: " + twitter);
   const url = "/api/settings/twitters/" + twitter;
   const res = await axios.delete(url);
 
+  dispatch({ type: AUTH_GET, payload: res.data });
+};
+
+export const updateTwitterTheme = theme => async dispatch => {
+  const url = "/api/settings/twitterTheme/";
+  const res = await axios.post(url, { theme });
   dispatch({ type: AUTH_GET, payload: res.data });
 };

@@ -38,4 +38,14 @@ module.exports = app => {
 
     res.send(user);
   });
+
+  app.post("/api/settings/twitterTheme", async (req, res) => {
+    const { theme } = req.body;
+
+    req.user.settings.twitterTheme = theme;
+
+    const user = await req.user.save();
+
+    res.send(user);
+  });
 };

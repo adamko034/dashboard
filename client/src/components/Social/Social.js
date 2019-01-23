@@ -21,6 +21,7 @@ const renderContent = props => {
 
   if (props.auth) {
     const twittersCount = props.auth.settings.twitters.length;
+    const theme = props.auth.settings.twitterTheme;
     let lgCol = 0;
 
     switch (twittersCount) {
@@ -40,7 +41,7 @@ const renderContent = props => {
     return props.auth.settings.twitters.map(twitter => {
       return (
         <Grid item lg={lgCol}>
-          <TwitterTimeline key={twitter} twitter={twitter} theme="dark" />
+          <TwitterTimeline key={twitter} twitter={twitter} theme={theme} />
         </Grid>
       );
     });

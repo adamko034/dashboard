@@ -11,7 +11,8 @@ const userSchema = new Schema({
   settings: {
     city: { type: String, default: "Katowice" },
     forecastHours: { type: Number, default: 72 },
-    twitters: []
+    twitters: [],
+    twitterTheme: { type: String, default: "dark" }
   }
 });
 
